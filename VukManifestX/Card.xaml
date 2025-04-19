@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl  
+  x:Class="VukManifestX.Card"  
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"  
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+  xmlns:local="using:VukManifestX"  
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
+  mc:Ignorable="d"  
+  Width="auto" Height="auto">
+
+    <Grid>
+        <Border
+            CornerRadius="12"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            Padding="12"
+            Margin="4">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Icon or Preview -->
+                <Image Source="{x:Bind PreviewImage, Mode=OneWay}"
+                       Width="100" Height="100"
+                       VerticalAlignment="Center"
+                       Margin="0,0,12,0"/>
+
+                <!-- Text + Checkbox -->
+                <StackPanel Grid.Column="1" Spacing="2">
+                    <TextBlock Text="{x:Bind Title, Mode=OneWay}" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBlock Text="{x:Bind Subtitle, Mode=OneWay}" FontSize="14" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                    <TextBlock Text="{x:Bind Description, Mode=OneWay}" FontSize="13" Foreground="{ThemeResource TextFillColorTertiaryBrush}" TextWrapping="Wrap"/>
+                    <CheckBox Content="Omogući" IsChecked="{x:Bind IsChecked, Mode=TwoWay}" Click="CheckBox_Click" Margin="0,4,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
