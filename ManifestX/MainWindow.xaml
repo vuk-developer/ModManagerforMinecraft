@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Window
-    x:Class="VukManifestX.MainWindow"
+    x:Class="ManifestX.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:VukManifestX"
+    xmlns:local="using:ManifestX"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="VukManifestX">
+    Title="ManifestX">
 
     <Grid>
         <!-- Custom Title Bar -->
@@ -17,8 +17,8 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
-                <TextBlock Text="VukManifestX" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0" >
+                <TextBlock Text="Marshal Mod Manager" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
             </StackPanel>
 
             <!-- Drag region (let user drag window here) -->
@@ -30,25 +30,22 @@
 
         <!-- App Content -->
         <Grid Margin="0,48,0,0" Background="#1F1F1F">
-            <NavigationView PaneDisplayMode="Top">
+            <NavigationView PaneDisplayMode="Left" ItemInvoked="NavView_ItemInvoked">
                 <NavigationView.MenuItems >
-                    <Button x:Name="Btn1" Click="Button_Click_3" Content="Mod Panel">
+                    <NavigationViewItem Tag="mpanel" Content="Kontrolna Tabla" Icon="Admin">
+                        
+                    </NavigationViewItem>
+                    <NavigationViewItem Tag="new" Content="Napravi Novi Manifest" Icon="NewWindow">
 
-                    </Button>
-                    <Button x:Name="Btn2" Click="Button_Click" Content="Novi Manifest">
+                    </NavigationViewItem>
+                    <NavigationViewItem Tag="open" Content="Otvori Manifest" Icon="OpenFile">
 
-                    </Button>
-                    <Button Click="Button_Click_1" Content="Otvori" IsEnabled="False">
+                    </NavigationViewItem>
+                    <NavigationViewItem Tag="launch" Content="Pokreni" Icon="Play" Background="#0078D4">
 
-                    </Button>
-                    <Button Click="Button_Click_2" Content="Pokreni">
-
-                    </Button>
+                    </NavigationViewItem>
                 </NavigationView.MenuItems>
                 <Grid x:Name="MainPanel">
-                    <ScrollViewer>
-                        <StackPanel x:Name="CardListPanel" Padding="20" Spacing="10"/>
-                    </ScrollViewer>
                     <Frame x:Name="ContentFrame"/>
                 </Grid>
             </NavigationView>

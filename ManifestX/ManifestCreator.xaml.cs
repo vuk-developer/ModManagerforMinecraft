@@ -16,17 +16,21 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using VukXML;
+using VXPASerializer;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.Devices.Haptics;
+using Windows.UI.Notifications;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace VukManifestX
+namespace ManifestX
 {
     public sealed partial class ManifestCreator : UserControl
     {
         StorageFolder _storageFolder;
-        string _name;
+        string _name = null;
         string guid = Guid.NewGuid().ToString();
         
         public ManifestCreator()
@@ -35,11 +39,17 @@ namespace VukManifestX
             IdTextBox.Text = guid;
         }
 
+
+
+
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             await Pick();
-            _name = _storageFolder.Path;
-            FolderPathText.Text = _name;
+            if (_storageFolder != null)
+            {
+                _name = _storageFolder.Path;
+                FolderPathText.Text = _name;
+            }
             
         }
 
@@ -57,8 +67,20 @@ namespace VukManifestX
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            VukXML.VukXML vukXML = new VukXML.VukXML();
-            vukXML.CreateVukXml(guid,_name);
+            if (_name == null) 
+            {
+                new ToastContentBuilder()
+                  .AddText("Morate izabrati folder")
+                  .Show();
+                return;
+            }
+            InterXML InterXML = new InterXML();
+            InterXML.CreateInterXml(guid,_name);
+            new ToastContentBuilder()
+                  .AddText("Manifest uspešno napravljen")
+                  .AddAttributionText(guid)
+                  .Show();
+
         }
     }
 }

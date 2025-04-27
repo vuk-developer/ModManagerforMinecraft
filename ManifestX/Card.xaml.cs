@@ -14,20 +14,29 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Media.Devices;
-using VukXML;
-using Marshalate;
+using Brigadier;
+using VXPASerializer.Models;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace VukManifestX
+namespace ManifestX
 {
     public sealed partial class Card : UserControl
     {
         public Card()
         {
             this.InitializeComponent();
+            this.IsCheckedChanged += (IsChecked) =>
+            {
+
+                MarshalVoid(IsChecked);
+            };
+
         }
-        public VukJavaMod VukJavaMod = new VukJavaMod();
+
+
+
+        public VMXMod VMXMod = new VMXMod();
         public string modsFolder = string.Empty;
         public string mnfstxPath = string.Empty;
         public BitmapImage PreviewImage
@@ -66,33 +75,47 @@ namespace VukManifestX
         public bool IsChecked
         {
             get => (bool)GetValue(IsCheckedProperty);
-            set => SetValue(IsCheckedProperty, value);
-            
-            
+            set
+            {
+                SetValue(IsCheckedProperty, value);
+                if (_isChecked != value)
+                {
+                    _isChecked = value;
+                    OnIsCheckedChanged();
+                }
+            }
+
         }
         public static readonly DependencyProperty IsCheckedProperty =
             DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(Card), new PropertyMetadata(false));
 
-        public VukJavaMod GetModActive()
+        public event Action<bool>? IsCheckedChanged;
+        private bool _isChecked;
+        private void OnIsCheckedChanged()
         {
-            return this.VukJavaMod;
+            IsCheckedChanged?.Invoke(_isChecked);
+        }
+        
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            MarshalVoid(true);
             
         }
 
-        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        private void MarshalVoid(bool val)
         {
-            VukJavaMod._enabled = IsChecked;
-            
+            VMXMod._enabled = IsChecked;
+
             Marshal marshal = new Marshal();
-            if (IsChecked == true) 
+            if (IsChecked == true)
             {
-                marshal.As(modsFolder, VukJavaMod, mnfstxPath);
+                marshal.As(modsFolder, VMXMod, mnfstxPath);
             }
             else
             {
-                marshal.TakeOut(modsFolder, VukJavaMod._filename);
+                marshal.TakeOut(modsFolder, VMXMod._filename);
             }
-            
         }
+
     }
 }

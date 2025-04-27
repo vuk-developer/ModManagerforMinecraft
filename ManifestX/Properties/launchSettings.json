@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "VukManifestX (Package)": {
+    "ManifestX (Package)": {
       "commandName": "MsixPackage"
     },
-    "VukManifestX (Unpackaged)": {
+    "ManifestX (Unpackaged)": {
       "commandName": "Project"
     }
   }

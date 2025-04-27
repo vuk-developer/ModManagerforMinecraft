@@ -10,7 +10,7 @@
   <Identity
     Name="84906503-f128-43e9-9b69-ceba64af7e21"
     Publisher="CN=vuk-developer"
-    Version="0.1.20.0" />
+    Version="0.1.25.0" />
 
   <mp:PhoneIdentity PhoneProductId="84906503-f128-43e9-9b69-ceba64af7e21" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -35,7 +35,7 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="Vuk&apos;s Marshal Mod Manager"
-        Description="VukManifestX Engine by Vuk"
+        Description="ManifestX Engine by Vuk"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">

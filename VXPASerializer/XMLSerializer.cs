@@ -6,35 +6,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using VXPASerializer.Models;
 
-namespace VukXML
+namespace VXPASerializer
 {
-    public class VukXML
+    public class InterXML
     {
 
         string ModsFolder = Environment.GetEnvironmentVariable("appdata")+"\\.minecraft\\mods";
         string DefaultFile = Directory.GetFiles(Environment.GetEnvironmentVariable("appdata") + "/.manifestsv/").Where(e => e.EndsWith("xvuk")).ToList()[0];
-        public VukXML(string path)
+        public InterXML(string path)
         {
             ModsFolder = path;
         }
-        public VukXML()
+        public InterXML()
         {
             
         }
-        public async void CreateVukXml(string profile, string modsPath)
+        public async void CreateInterXml(string profile, string modsPath)
         {
-            List<VukJavaMod> vukJavaMods = GetMods(ModsFolder);
+            List<VMXMod> VMXMods = GetMods(modsPath);
             string path = Environment.GetEnvironmentVariable("appdata") + "/.manifestsv/config.vml";
             XDocument xDocument = new XDocument(
-                new XElement("Vuk.ManifestX")
+                new XElement("VMX.ManifestX")
                 );
-            xDocument.Root.Add(new XElement("Vuk.ModsDirectory"),
-                          new XElement("Vuk.Profile", profile));
-            XElement modsManifest = new XElement("Vuk.Manifest");
-            foreach (VukJavaMod mod in vukJavaMods)
+            xDocument.Root.Add(new XElement("VMX.ModsDirectory"),
+                          new XElement("VMX.Profile", profile));
+            XElement modsManifest = new XElement("VMX.Manifest");
+            foreach (VMXMod mod in VMXMods)
             {
-                XElement modpropX = new XElement("Vuk.Mod");
+                XElement modpropX = new XElement("VMX.Mod");
                 modpropX.SetAttributeValue("id", mod.Id());
                 
                 modpropX.SetAttributeValue("name", mod.Name());
@@ -57,11 +58,12 @@ namespace VukXML
             Directory.CreateDirectory(Environment.GetEnvironmentVariable("appdata")+"/.manifestsv");
             xDocument.Save(path);
 
-            VukXZip(path, modsPath, Environment.GetEnvironmentVariable("appdata") + $"/.manifestsv/mnfstx_{profile}.xvuk");
+            ManifestXZip(path, modsPath, Environment.GetEnvironmentVariable("appdata") + $"/.manifestsv/mnfstx_{profile}.vxpa");
+
 
         }
 
-        public VukXProfile GetModsFromXML(string filename = null)
+        public VMXProfile GetModsFromXML(string filename = null)
         {
             string temp = Environment.GetEnvironmentVariable("appdata") + "/.manifestsv/temp/";
 
@@ -88,20 +90,20 @@ namespace VukXML
                 }
             }
 
-            VukXProfile profile = new VukXProfile();
+            VMXProfile profile = new VMXProfile();
             XDocument xmlDoc = XDocument.Load(temp+ "_conf.vml");
 
-            var xmlElements = xmlDoc.Element("Vuk.ManifestX")
-                                    .Element("Vuk.Manifest");
-            profile.Id = xmlDoc.Element("Vuk.ManifestX")
-                               .Element("Vuk.Profile")
+            var xmlElements = xmlDoc.Element("VMX.ManifestX")
+                                    .Element("VMX.Manifest");
+            profile.Id = xmlDoc.Element("VMX.ManifestX")
+                               .Element("VMX.Profile")
                                .Value
                                .ToString();
             foreach (XElement xmlElement in xmlElements.Descendants())
             {
                 
                 
-                VukJavaMod mod = new VukJavaMod();
+                VMXMod mod = new VMXMod();
                 mod._id = xmlElement.Attribute("id").Value.ToString();
                 mod._name = xmlElement.Attribute("name").Value.ToString();
                 mod._version = xmlElement.Attribute("ver").Value.ToString();
@@ -118,9 +120,9 @@ namespace VukXML
             return profile;
 
         }
-        public List<VukJavaMod> GetMods(string path) 
+        public List<VMXMod> GetMods(string path) 
         { 
-            List<VukJavaMod> mods = new List<VukJavaMod>();
+            List<VMXMod> mods = new List<VMXMod>();
 
             foreach (string item in Directory.GetFiles(path))
             {
@@ -133,19 +135,16 @@ namespace VukXML
                     {
                         using (StreamReader sr = new StreamReader(entry.Open()))
                         {
-                            mods.Add(VukMLClassifier.ToMod(sr.ReadToEnd(),Path.GetFileName(item)));
+                            mods.Add(MLClassifier.ToMod(sr.ReadToEnd(), Path.GetFileName(item)));
                         }
                     }
 
                 }
             }
-
-
-
             return mods;
         }
 
-        public void VukXZip(string manifestPath, string modsFolder, string manifestX)
+        public void ManifestXZip(string manifestPath, string modsFolder, string manifestX)
         {
             using (ZipArchive zipArchive = ZipFile.Open(manifestX, ZipArchiveMode.Create))
             {

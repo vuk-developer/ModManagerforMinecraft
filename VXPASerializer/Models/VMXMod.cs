@@ -6,9 +6,9 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VukXML
+namespace VXPASerializer.Models
 {
-    public class VukJavaMod
+    public class VMXMod
     {
         public string? _id { get; set; }
         public string? _name { get; set; }
@@ -17,15 +17,15 @@ namespace VukXML
         public string? _framework { get; set; }
         public string? _filename { get; set; }
 
-        public bool? _enabled = true;
+        public bool? _enabled = false;
         public DateTime? _dateTime { get; set; }
 
-        public VukJavaMod(string id, string name, string desc, string version, string filename, string framework, DateTime dateTime)
+        public VMXMod(string id, string name, string desc, string version, string filename, string framework, DateTime dateTime)
         {
             if (id == null) { id = Guid.NewGuid().ToString(); }
             _id = id;
             _name = name;
-            _description = desc;
+            _description = desc.Trim();
             _version = version;
             _filename = filename;
             _framework = framework;
@@ -33,7 +33,7 @@ namespace VukXML
             _dateTime = dateTime;
 
         }
-        public VukJavaMod()
+        public VMXMod()
         {
             
         }
@@ -64,11 +64,8 @@ namespace VukXML
         }
         public override string ToString()
         {
-          // bool v = 3 == 4 ? true : false;
             File.WriteAllText(@"C:\Users\Administrator\Desktop\JBT.v", $"id = {_id},\n name = {_name},\n desc = {_description.TrimEnd()},\n version = {_version},\n framework = {_framework},\n date = {_dateTime.ToString()}");
             return $"id = {_id},\n name = {_name},\n desc = {_description.TrimEnd()},\n version = {_version},\n framework = {_framework},\n date = {_dateTime.ToString()}";
-
-            
 
         }
 

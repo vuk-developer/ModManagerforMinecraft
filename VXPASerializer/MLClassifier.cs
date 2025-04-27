@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VukXML;
+using System.Xml;
 using Tomlyn.Helpers;
 using Tomlyn.Model;
 using Tomlyn.Parsing;
 using Tomlyn;
+using VXPASerializer.Models;
 
-namespace VukXML
+namespace VXPASerializer
 {
-    public class VukMLClassifier
+    public class MLClassifier
     {
-        public static VukJavaMod ToMod(string sr, string filename)
+        public static VMXMod ToMod(string sr, string filename)
         {
-            VukJavaMod modPrime = new VukJavaMod();
+            VMXMod modPrime = new VMXMod();
             TomlTable table = Toml.ToModel(sr);
             TomlTableArray tb = table["mods"] as TomlTableArray;
 
 
-            VukJavaMod mod = new VukJavaMod(Guid.NewGuid().ToString(),
+            VMXMod mod = new VMXMod(Guid.NewGuid().ToString(),
                                             (string)tb[0]["modId"],
                                             (string)tb[0]["description"],
                                             (string)tb[0]["version"],

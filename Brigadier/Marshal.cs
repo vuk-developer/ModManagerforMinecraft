@@ -3,14 +3,14 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
-using VukXML;
+using VXPASerializer.Models;
 
-namespace Marshalate
+namespace Brigadier
 {
     public class Marshal
     {
         string mnfst = string.Empty;
-        public void As(string modsFolder, VukJavaMod mod, string mnfstX)
+        public void As(string modsFolder, VMXMod mod, string mnfstX)
         {
             using (ZipArchive zipArchive = ZipFile.Open(mnfstX, ZipArchiveMode.Read))
             {

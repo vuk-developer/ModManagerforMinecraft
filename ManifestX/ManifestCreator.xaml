@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UserControl
-    x:Class="VukManifestX.ManifestCreator"
+    x:Class="ManifestX.ManifestCreator"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:VukManifestX"
+    xmlns:local="using:ManifestX"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     
     <Grid ColumnDefinitions="Auto,*" Padding="10">
         <!-- Side Tree View -->
-        <TreeView x:Name="IdTreeView" Width="200" Margin="0,0,10,0">
-            <TreeView.RootNodes>
-
-            </TreeView.RootNodes>
-        </TreeView>
 
         <!-- Input Form -->
-        <StackPanel Grid.Column="1" Spacing="10">
+        <StackPanel Grid.Column="0" Spacing="10">
             <!-- Display ID -->
             <TextBox x:Name="IdTextBox" Header="ID" IsReadOnly="True"/>
 
@@ -26,7 +21,7 @@
 
             <!-- Folder Picker -->
             <Button Content="Izaberi folder" Click="Button_Click"/>
-            <TextBlock x:Name="FolderPathText" Text="No folder selected" TextWrapping="Wrap"/>
+            <TextBlock x:Name="FolderPathText" Text="Nijedan folder nise izabrali" TextWrapping="Wrap"/>
 
             <Button Content="Napravi manifest" Click="Button_Click_1"/>
         </StackPanel>
