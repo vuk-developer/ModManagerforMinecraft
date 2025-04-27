@@ -87,7 +87,6 @@
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageIcon>ChatGPT Image Apr 19, 2025, 03_58_20 PM.png</PackageIcon>
     <DefaultLanguage>sr-latn-rs</DefaultLanguage>
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <WindowsPackageType>None</WindowsPackageType>
