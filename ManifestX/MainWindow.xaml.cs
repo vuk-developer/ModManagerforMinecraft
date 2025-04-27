@@ -213,6 +213,10 @@ namespace ManifestX
         }
         private void InvokeControl()
         {
+            if (MainFile == string.Empty) 
+            { 
+                return;
+            }
             MainPanel.Children.Clear();
             stackPanel.Children.Clear();
             stackPanel.Children.Add(button);

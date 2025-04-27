@@ -10,7 +10,7 @@
   <Identity
     Name="84906503-f128-43e9-9b69-ceba64af7e21"
     Publisher="CN=vuk-developer"
-    Version="0.1.25.0" />
+    Version="0.1.29.0" />
 
   <mp:PhoneIdentity PhoneProductId="84906503-f128-43e9-9b69-ceba64af7e21" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
