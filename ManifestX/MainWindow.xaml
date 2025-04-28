@@ -41,6 +41,9 @@
                     <NavigationViewItem Tag="open" Content="Otvori Manifest" Icon="OpenFile">
 
                     </NavigationViewItem>
+                    <NavigationViewItem Tag="depot" Content="Manifest Depozitorijum" Icon="PhoneBook">
+
+                    </NavigationViewItem>
                     <NavigationViewItem Tag="launch" Content="Pokreni" Icon="Play" Background="#0078D4">
 
                     </NavigationViewItem>

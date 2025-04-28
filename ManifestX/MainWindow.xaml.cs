@@ -239,7 +239,11 @@ namespace ManifestX
             scrollViewer.Content = stackPanel;
             MainPanel.Children.Add(scrollViewer);
         }
-
+        private void InvokeDepot()
+        {
+            MainPanel.Children.Clear();
+            MainPanel.Children.Add(new ManifestList());
+        }
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             var invokedItem = args.InvokedItemContainer as NavigationViewItem;
@@ -258,6 +262,9 @@ namespace ManifestX
                     break;
                 case "launch":
                     InvokeLaunch();
+                    break;
+                case "depot":
+                    InvokeDepot();
                     break;
             }
         }

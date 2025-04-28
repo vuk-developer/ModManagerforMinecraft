@@ -13,8 +13,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Assets\static.png" />
     <None Remove="Card.xaml" />
     <None Remove="ManifestCreator.xaml" />
+    <None Remove="ManifestList.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +57,16 @@
   <ItemGroup>
     <ProjectReference Include="..\Brigadier\Brigadier.csproj" />
     <ProjectReference Include="..\VXPASerializer\VXPASerializer.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\static.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="ManifestList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="ManifestCreator.xaml">
