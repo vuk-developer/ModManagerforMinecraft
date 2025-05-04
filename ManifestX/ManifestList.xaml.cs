@@ -20,23 +20,13 @@ namespace ManifestX
 {
     public sealed partial class ManifestList : UserControl
     {
+        string Descripti { get; set; }
+        string Heading { get; set; }
         public ManifestList()
         {
             this.InitializeComponent();
         }
 
-        private void ExpandButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (ExpandableContent.Visibility == Visibility.Collapsed)
-            {
-                ExpandableContent.Visibility = Visibility.Visible;
-                ExpandButton.Content = "˄"; // Up arrow
-            }
-            else
-            {
-                ExpandableContent.Visibility = Visibility.Collapsed;
-                ExpandButton.Content = "˅"; // Down arrow
-            }
-        }
+
     }
 }

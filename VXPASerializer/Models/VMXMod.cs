@@ -29,7 +29,7 @@ namespace VXPASerializer.Models
             _version = version;
             _filename = filename;
             _framework = framework;
-            if (dateTime == null) { dateTime = DateTime.Now; }
+            dateTime = DateTime.Now;
             _dateTime = dateTime;
 
         }
@@ -39,7 +39,6 @@ namespace VXPASerializer.Models
         }
         public string Name()
         {
-
             return _name;
         }
         public string Description()
@@ -64,7 +63,6 @@ namespace VXPASerializer.Models
         }
         public override string ToString()
         {
-            File.WriteAllText(@"C:\Users\Administrator\Desktop\JBT.v", $"id = {_id},\n name = {_name},\n desc = {_description.TrimEnd()},\n version = {_version},\n framework = {_framework},\n date = {_dateTime.ToString()}");
             return $"id = {_id},\n name = {_name},\n desc = {_description.TrimEnd()},\n version = {_version},\n framework = {_framework},\n date = {_dateTime.ToString()}";
 
         }

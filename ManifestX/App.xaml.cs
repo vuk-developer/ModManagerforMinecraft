@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -32,19 +34,37 @@ namespace ManifestX
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-        }
+            try
+            {
+                this.InitializeComponent();
+            }
+            catch (Exception ex) 
+            { 
+            
+                Console.WriteLine(ex.Message);
+                
+            }
 
-        /// <summary>
+          
+        }        /// <summary>
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            m_window = new MainWindow();
-            m_window.Activate();
+            try
+            {
+                m_window = new MainWindow();
+                m_window.Activate();
+            }
+            catch (Exception ex)
+            {
+                File.WriteAllText("launch_crash.txt", ex.ToString());
+                Console.WriteLine(ex.ToString());
+            }
         }
+        public static Window MainWindow => ((App)Current).m_window!;
 
-        private Window? m_window;
+        public Window? m_window;
     }
 }

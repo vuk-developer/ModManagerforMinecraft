@@ -25,6 +25,7 @@ using WinRT.Interop;
 using System.Threading.Tasks;
 using System.Threading;
 using VXPASerializer;
+using VXPASerializer.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -38,28 +39,80 @@ namespace ManifestX
     {
         
         StackPanel stackPanel = new StackPanel();
+        
         ScrollViewer scrollViewer = new ScrollViewer();
         InterXML InterXML = new InterXML();
         Button button = new Button();
         
         Brigadier.Marshal marshal = new Brigadier.Marshal();
         string MainFile = string.Empty;
-        string modsFolder = Environment.GetEnvironmentVariable("appdata") + "/.minecraft/mods";
-
+        string modsFolder = string.Empty;
+        string LauncherConnector = string.Empty;
+        string ManifestConnector = string.Empty;
         int i = 0;
         public MainWindow()
         {
+            ConfigurationFile configurationFile = new ConfigurationFile();
+            try
+            {
+                LauncherConnector = configurationFile.Configuration["VMX.Launcher"];
+                modsFolder = configurationFile.Configuration["VMX.ModsDirectory"];
+                ManifestConnector = configurationFile.Configuration["VMX.ManifestDepotDirectory"];
+            }catch 
+            {
+                LauncherConnector = @"C:\XboxGames\Minecraft Launcher\Content\Minecraft.exe";
+                modsFolder = Environment.GetEnvironmentVariable("appdata") + "/.minecraft/mods";
+                ManifestConnector = Environment.GetEnvironmentVariable("appdata") + "/.manifestsv/";
+
+            }
+
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
             stackPanel.Padding = new Thickness(20);
+            
             stackPanel.Spacing = 10;
             stackPanel.CanBeScrollAnchor = true;
             button.Content = "Omogući sve";
+            button.Margin = new Thickness(7, 0, 0, 0);
             button.Click += Button_Click;
             this.InitializeComponent();
+            MainPanel.Margin = new Thickness(30, 0, 0, 0);
             this.SetTitleBar(AppTitleBar);
             this.ExtendsContentIntoTitleBar = true;
             PopulateGUI();
             this.Closed += MainWindow_Closed;
+            navView.Loaded += (s, e) =>
+            {
+                var settings = (NavigationViewItem)navView.SettingsItem;
+                settings.Tag = "settings";
+            };
+        }
+
+
+        private async void Commit_Click(object sender, RoutedEventArgs e)
+        {
+            FileOpenPicker fileOpenPicker = new FileOpenPicker();
+            fileOpenPicker.FileTypeFilter.Add(".exe");
+            nint windowHandle = WindowNative.GetWindowHandle(this);
+            InitializeWithWindow.Initialize(fileOpenPicker, windowHandle);
+            try
+            {
+                StorageFile file = await fileOpenPicker.PickSingleFileAsync();
+                if (file != null)
+                {
+                    MainFile = file.Path;
+                    i = 1;
+                }
+                else
+                {
+                    return;
+                }
+
+            }
+            catch
+            {
+                
+            }
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -118,22 +171,23 @@ namespace ManifestX
                 }
 
             }
-            catch (Exception ex) 
+            catch 
             {
-                return;
+                
             }
 
         }
         private async void PopulateGUI()
         {
-
+            navView.Header = "Kontrolni Panel";
             await Load();
             if (MainFile == string.Empty)
             {
                 return;
             }
             stackPanel.Children.Add(button);
-            foreach (var data in InterXML.GetModsFromXML(MainFile).Mods)
+            VMXProfile vMXProfile = InterXML.GetModsFromXML(MainFile);
+            foreach (var data in vMXProfile.Mods)
             {
                 var card = new Card
                 {
@@ -150,6 +204,8 @@ namespace ManifestX
 
                 stackPanel.Children.Add(card);
             }
+            HeaderID.Text = vMXProfile.Id;
+            HeaderName.Text = vMXProfile.Name;
             scrollViewer.Content = stackPanel;
             MainPanel.Children.Add(scrollViewer);
         }
@@ -160,7 +216,7 @@ namespace ManifestX
         }
         private async void InvokeOpen()
         {
-
+            navView.Header = "Kontrolni Panel";
             marshal.AllClear(modsFolder);
 
             FileOpenPicker fileOpenPicker = new FileOpenPicker();
@@ -175,15 +231,16 @@ namespace ManifestX
                     MainFile = file.Path;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return;
+
             }
 
             MainPanel.Children.Clear();
             stackPanel.Children.Clear();
             stackPanel.Children.Add(button);
-            foreach (var data in InterXML.GetModsFromXML(MainFile).Mods)
+            VMXProfile vMXProfile = InterXML.GetModsFromXML(MainFile);
+            foreach (var data in vMXProfile.Mods)
             {
                 var card = new Card
                 {
@@ -199,28 +256,35 @@ namespace ManifestX
 
                 stackPanel.Children.Add(card);
             }
+            HeaderID.Text = vMXProfile.Id;
+            HeaderName.Text = vMXProfile.Name;
             scrollViewer.Content = stackPanel;
             MainPanel.Children.Add(scrollViewer);
 
         }
         private void InvokeNewManifest()
         {
-
+            navView.Header = "Napravi Novi Manifest";
             MainPanel.Children.Clear();
 
-            MainPanel.Children.Add(new ManifestCreator());
+            MainPanel.Children.Add(new ManifestCreator(ManifestConnector));
+            
 
         }
         private void InvokeControl()
         {
+            navView.Header = "Kontrolni Panel";
             if (MainFile == string.Empty) 
             { 
                 return;
             }
+           
             MainPanel.Children.Clear();
             stackPanel.Children.Clear();
             stackPanel.Children.Add(button);
-            foreach (var data in InterXML.GetModsFromXML(MainFile).Mods)
+            VMXProfile vMXProfile = InterXML.GetModsFromXML(MainFile);
+
+            foreach (var data in vMXProfile.Mods)
             {
                 var card = new Card
                 {
@@ -236,14 +300,24 @@ namespace ManifestX
 
                 stackPanel.Children.Add(card);
             }
+            HeaderID.Text = vMXProfile.Id;
+            HeaderName.Text = vMXProfile.Name;
             scrollViewer.Content = stackPanel;
             MainPanel.Children.Add(scrollViewer);
         }
         private void InvokeDepot()
         {
+            navView.Header = "Manifest Depozitorijum";
             MainPanel.Children.Clear();
             MainPanel.Children.Add(new ManifestList());
         }
+        private void InvokeSettings()
+        {
+            navView.Header = "Postavke";
+            MainPanel.Children.Clear();
+            MainPanel.Children.Add(new ManifestSettings());
+        }
+
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             var invokedItem = args.InvokedItemContainer as NavigationViewItem;
@@ -265,6 +339,9 @@ namespace ManifestX
                     break;
                 case "depot":
                     InvokeDepot();
+                    break;
+                case "settings":
+                    InvokeSettings();
                     break;
             }
         }

@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using VXPASerializer.Models;
 
@@ -9,7 +10,6 @@ namespace Brigadier
 {
     public class Marshal
     {
-        string mnfst = string.Empty;
         public void As(string modsFolder, VMXMod mod, string mnfstX)
         {
             using (ZipArchive zipArchive = ZipFile.Open(mnfstX, ZipArchiveMode.Read))
@@ -25,8 +25,7 @@ namespace Brigadier
 
         public void TakeOut(string modsFolder, string filename)
         {
-            File.Delete(modsFolder+"/"+filename);
-        }
+            File.Delete(modsFolder+"/"+filename);        }
 
         public void AllClear(string modsFolder)
         {
@@ -34,6 +33,7 @@ namespace Brigadier
             {
                 File.Delete(item);
             }
+
         }
 
 

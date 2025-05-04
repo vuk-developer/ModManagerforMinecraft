@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="ManifestX.ManifestSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ManifestX"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Margin="20,0,0,0" ColumnDefinitions="Auto,*" Padding="10" >
+        <StackPanel Grid.Column="0" Spacing="10">
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="2" Width="Auto">
+                <TextBlock Padding="5" x:Name="LauncherConnector" Text="{x:Bind LauncherConnect, Mode=TwoWay}" TextWrapping="Wrap"/>
+            </Border>
+            <Button IsEnabled="False" Content="Učitaj lokaciju MC Launcher-a" Click="Button_Click"/>
+
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="2" Width="Auto">
+                <TextBlock Padding="5" x:Name="ModsConnector" Text="{x:Bind ModsConnect, Mode=TwoWay}"  TextWrapping="Wrap"/>
+            </Border>
+            <Button IsEnabled="False" Content="Učitaj lokaciju Mods Direktorijuma" Click="Button_Click_1"/>
+
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" CornerRadius="2" Width="Auto">
+                <TextBlock Padding="5" x:Name="ManifestDepotConnector" Text="{x:Bind ManifestConnect, Mode=TwoWay}"  TextWrapping="Wrap"/>
+            </Border>
+            <TextBlock Text="Lokacija gde želiš da čuvaš Manifeste"/>
+            <Button IsEnabled="False" Content="Učitaj" Click="Button_Click_2"/>
+
+            <TextBlock x:Name="configFileText">
+                
+            </TextBlock>
+            <Button IsEnabled="False" Content="Obriši sva podešavanja" Foreground="Red" FontWeight="Bold" Click="Button_Click_3"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

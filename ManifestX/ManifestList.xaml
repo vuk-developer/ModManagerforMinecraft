@@ -6,6 +6,7 @@
     xmlns:local="using:ManifestX"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:VXPASerializer.Models"
     mc:Ignorable="d">
 
     <Grid>
@@ -45,12 +46,14 @@
                         <StackPanel Grid.Column="1"
                                 VerticalAlignment="Center"
                                 Margin="0,12,0,0">
-                            <TextBlock Text="Naslov"
+                            <TextBlock Text="{x:Bind Heading, Mode=OneWay}"
                                    FontSize="19"
                                    FontWeight="SemiBold"
                                    Foreground="White"
-                                   Margin="0,0,0,2"/>
-                            <TextBlock Text="Datum"
+                                   Margin="0,0,0,2"
+                                   x:DefaultBindMode="TwoWay"
+                                       />
+                            <TextBlock Text="{x:Bind Descripti, Mode=OneWay}"
                                    FontSize="16"
                                    Foreground="Gray"/>
                         </StackPanel>
@@ -64,7 +67,16 @@
 
                 <!-- Expander Content -->
                 <StackPanel Padding="12">
-                    <TextBlock>Testiranje</TextBlock>
+                    <ListView ItemsSource="{Binding Items}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:VMXMod">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <TextBlock Text="{x:Bind _name}" />
+                                    <TextBlock Text="{x:Bind _filename}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackPanel>
 
             </Expander>

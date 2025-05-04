@@ -22,12 +22,12 @@ namespace VXPASerializer
 
 
             VMXMod mod = new VMXMod(Guid.NewGuid().ToString(),
-                                            (string)tb[0]["modId"],
-                                            (string)tb[0]["description"],
-                                            (string)tb[0]["version"],
-                                            filename,
-                                            "forge",
-                                            DateTime.Now
+                                                (string)tb[0]["modId"],
+                                                (string)tb[0]["description"],
+                                                (string)tb[0]["version"],
+                                                filename,
+                                                "forge",
+                                                DateTime.Now
                                             );
             modPrime = mod;
 

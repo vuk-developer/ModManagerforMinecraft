@@ -12,25 +12,18 @@ namespace VXPASerializer
 {
     public class InterXML
     {
-
-        string ModsFolder = Environment.GetEnvironmentVariable("appdata")+"\\.minecraft\\mods";
-        string DefaultFile = Directory.GetFiles(Environment.GetEnvironmentVariable("appdata") + "/.manifestsv/").Where(e => e.EndsWith("xvuk")).ToList()[0];
-        public InterXML(string path)
-        {
-            ModsFolder = path;
-        }
         public InterXML()
         {
             
         }
-        public async void CreateInterXml(string profile, string modsPath)
+        public async void CreateInterXml(string profileName, string profile, string modsPath, string manifestLocation)
         {
             List<VMXMod> VMXMods = GetMods(modsPath);
-            string path = Environment.GetEnvironmentVariable("appdata") + "/.manifestsv/config.vml";
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)+"/temp/manifest.vml";
             XDocument xDocument = new XDocument(
                 new XElement("VMX.ManifestX")
                 );
-            xDocument.Root.Add(new XElement("VMX.ModsDirectory"),
+            xDocument.Root.Add(new XElement("VMX.Name", profileName),
                           new XElement("VMX.Profile", profile));
             XElement modsManifest = new XElement("VMX.Manifest");
             foreach (VMXMod mod in VMXMods)
@@ -55,17 +48,16 @@ namespace VXPASerializer
             }
             xDocument.Root.Add(modsManifest);
 
-            Directory.CreateDirectory(Environment.GetEnvironmentVariable("appdata")+"/.manifestsv");
             xDocument.Save(path);
 
-            ManifestXZip(path, modsPath, Environment.GetEnvironmentVariable("appdata") + $"/.manifestsv/mnfstx_{profile}.vxpa");
-
+            ManifestXZip(path, modsPath, manifestLocation);
+            File.Delete(path);
 
         }
 
         public VMXProfile GetModsFromXML(string filename = null)
         {
-            string temp = Environment.GetEnvironmentVariable("appdata") + "/.manifestsv/temp/";
+            string temp = Environment.GetEnvironmentVariable("temp") + "/vmx/temp/";
 
             if (filename != null)
             {
@@ -78,17 +70,7 @@ namespace VXPASerializer
                     zipArchive.ExtractToDirectory(temp);
                 }
             }
-            else
-            {
-                using (ZipArchive zipArchive = ZipFile.OpenRead(DefaultFile))
-                {
-                    if (Directory.Exists(temp))
-                    {
-                        Directory.Delete(temp, true);
-                    }
-                    zipArchive.ExtractToDirectory(temp);
-                }
-            }
+           
 
             VMXProfile profile = new VMXProfile();
             XDocument xmlDoc = XDocument.Load(temp+ "_conf.vml");
@@ -99,6 +81,10 @@ namespace VXPASerializer
                                .Element("VMX.Profile")
                                .Value
                                .ToString();
+            profile.Name = xmlDoc.Element("VMX.ManifestX")
+                                        .Element("VMX.Name")
+                                        .Value
+                                        .ToString();
             foreach (XElement xmlElement in xmlElements.Descendants())
             {
                 
@@ -146,16 +132,18 @@ namespace VXPASerializer
 
         public void ManifestXZip(string manifestPath, string modsFolder, string manifestX)
         {
-            using (ZipArchive zipArchive = ZipFile.Open(manifestX, ZipArchiveMode.Create))
+            using (FileStream stream = new FileStream(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)+manifestX, FileMode.Create))
             {
-                zipArchive.CreateEntryFromFile(manifestPath, "_conf.vml");
-                File.Delete(manifestPath);
-                foreach (string file in Directory.GetFiles(modsFolder))
+                using (ZipArchive zipArchive = new ZipArchive(stream, ZipArchiveMode.Create))
                 {
-                    zipArchive.CreateEntryFromFile(file, $"_res/{Path.GetFileName(file)}");
+                    zipArchive.CreateEntryFromFile(manifestPath, "_conf.vml");
+                    File.Delete(manifestPath);
+                    foreach (string file in Directory.GetFiles(modsFolder))
+                    {
+                        zipArchive.CreateEntryFromFile(file, $"_res/{Path.GetFileName(file)}");
+                    }
                 }
             }
-
         }
 
 

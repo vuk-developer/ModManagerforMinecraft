@@ -18,7 +18,7 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0" >
-                <TextBlock Text="Marshal Mod Manager" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
+                <TextBlock Text="Marshal Mod Manager" VerticalAlignment="Top" FontSize="12" FontWeight="SemiBold" Foreground="White"/>
             </StackPanel>
 
             <!-- Drag region (let user drag window here) -->
@@ -30,24 +30,40 @@
 
         <!-- App Content -->
         <Grid Margin="0,48,0,0" Background="#1F1F1F">
-            <NavigationView PaneDisplayMode="Left" ItemInvoked="NavView_ItemInvoked">
+            <NavigationView IsSettingsVisible="True" x:Name="navView" PaneDisplayMode="Left" ItemInvoked="NavView_ItemInvoked">
                 <NavigationView.MenuItems >
-                    <NavigationViewItem Tag="mpanel" Content="Kontrolna Tabla" Icon="Admin">
-                        
-                    </NavigationViewItem>
-                    <NavigationViewItem Tag="new" Content="Napravi Novi Manifest" Icon="NewWindow">
+                    <NavigationViewItem Tag="mpanel" Content="Kontrolna Tabla" Icon="Admin" Padding="8,0,0,0">
 
                     </NavigationViewItem>
-                    <NavigationViewItem Tag="open" Content="Otvori Manifest" Icon="OpenFile">
+                    <NavigationViewItem Tag="new" Content="Napravi Novi Manifest" Icon="NewWindow" Padding="8,0,0,0">
 
                     </NavigationViewItem>
-                    <NavigationViewItem Tag="depot" Content="Manifest Depozitorijum" Icon="PhoneBook">
+                    <NavigationViewItem Tag="open" Content="Otvori Manifest" Icon="OpenFile" Padding="8,0,0,0">
 
                     </NavigationViewItem>
-                    <NavigationViewItem Tag="launch" Content="Pokreni" Icon="Play" Background="#0078D4">
+                    <NavigationViewItem Tag="depot" Content="Manifest Depozitorijum" Icon="PhoneBook" Padding="8,0,0,0">
+
+                    </NavigationViewItem>
+                    <NavigationViewItem Tag="launch" Content="Pokreni" Icon="Play" Background="#0078D4" Padding="8,0,0,0">
 
                     </NavigationViewItem>
                 </NavigationView.MenuItems>
+                <NavigationView.PaneHeader>
+                    <Border
+                        CornerRadius="3"
+                        Margin="8,0,0,0"
+                        >
+                        <StackPanel Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Padding="8,0,0,0">
+                            <TextBlock x:Name="HeaderName" FontWeight="SemiBold" FontSize="16" Text="Učitavanje...">
+
+                            </TextBlock>
+                            <TextBlock x:Name="HeaderID" FontWeight="Light" FontSize="11" Text="Učitavanje...">
+
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+
+                </NavigationView.PaneHeader>
                 <Grid x:Name="MainPanel">
                     <Frame x:Name="ContentFrame"/>
                 </Grid>

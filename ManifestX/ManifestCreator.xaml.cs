@@ -30,12 +30,16 @@ namespace ManifestX
     public sealed partial class ManifestCreator : UserControl
     {
         StorageFolder _storageFolder;
-        string _name = null;
+        string folderPath = null;
         string guid = Guid.NewGuid().ToString();
-        
-        public ManifestCreator()
+        string publicName = "NULL";
+        string manifestDir = string.Empty;
+        IntPtr hwnd = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+
+        public ManifestCreator(string ManifestConnector)
         {
             this.InitializeComponent();
+            manifestDir = ManifestConnector;
             IdTextBox.Text = guid;
         }
 
@@ -47,8 +51,9 @@ namespace ManifestX
             await Pick();
             if (_storageFolder != null)
             {
-                _name = _storageFolder.Path;
-                FolderPathText.Text = _name;
+                folderPath = _storageFolder.Path;
+                FolderPathText.Text = folderPath;
+                publicName = NameTextBox.Text;
             }
             
         }
@@ -59,7 +64,7 @@ namespace ManifestX
             folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
             folderPicker.FileTypeFilter.Add("*");
 
-            IntPtr hwnd = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+            Window window = (Application.Current as App)?.m_window!;
             WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hwnd);
             Windows.Storage.StorageFolder folder = await folderPicker.PickSingleFolderAsync();
             _storageFolder = folder;
@@ -67,19 +72,16 @@ namespace ManifestX
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (_name == null) 
+            if (folderPath == null) 
             {
-                new ToastContentBuilder()
-                  .AddText("Morate izabrati folder")
-                  .Show();
+                Alert.Send("Morate izabrati",string.Empty);
                 return;
             }
             InterXML InterXML = new InterXML();
-            InterXML.CreateInterXml(guid,_name);
-            new ToastContentBuilder()
-                  .AddText("Manifest uspešno napravljen")
-                  .AddAttributionText(guid)
-                  .Show();
+
+            InterXML.CreateInterXml(NameTextBox.Text, guid, folderPath, $"/{NameTextBox.Text}_{guid}.vxpa");
+            Alert.Send("Manifest uspešno napravljen", string.Empty);
+
 
         }
     }
