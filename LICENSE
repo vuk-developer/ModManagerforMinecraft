@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: LicenseRef-SNTL
+
+Sentinel License
+Version 1.0 — May 2025
+
+Copyright © 2025
+
+1. Permission
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to view, edit, and compile the Software for personal, non-commercial use only.
+
+2. Restrictions
+
+The following activities are strictly prohibited:
+
+- Using the Software or any derivative works for commercial purposes.
+- Redistributing the Software, whether modified or unmodified, including any compiled binaries.
+- Hosting the Software as a service or incorporating it into any network-accessible or publicly shared system.
+- Sublicensing, renting, selling, or otherwise transferring the Software or any part thereof.
+- Using the Software for any unlawful or unauthorized activity.
+
+All rights not expressly granted are reserved by the copyright holder.
+
+3. Disclaimer
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+
+4. Third-Party Components
+
+This software uses the Tomlyn library, licensed under the BSD 2-Clause License.
+Nothing in the Sentinel License shall restrict or override the rights granted by the Tomlyn license.
